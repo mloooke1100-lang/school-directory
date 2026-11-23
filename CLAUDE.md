@@ -36,3 +36,8 @@ npm run build && npm run typecheck && npx eslint .
 8. «تم الحفظ» فقط بعد نجاح الكتابة. التعديلات تستخدم `updateVersioned` (version).
 9. لا تكتب «اختبار ناجح» إلا بعد تشغيله فعلًا. حدّث `docs/TEST_RESULTS.md` و`docs/PROGRESS.md` في نهاية كل جلسة.
 10. لا وحدات/أزرار في الواجهة قبل أن تعمل فعلًا.
+
+## التسليم في نهاية كل جلسة
+1. ادفع العمل إلى `main` في GitHub.
+2. أنشئ نسخة zip محدّثة: `git archive --format=zip --prefix=school-directory/ -o ../school-directory-$(date +%Y-%m-%d).zip HEAD`
+3. أرسلها للمستخدم بـ SendUserFile مع سطر واحد: ما أُنجز في الجلسة. (مالك يحفظها في ملفات جواله ولا يحتاج يدخل GitHub.)
