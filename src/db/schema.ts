@@ -455,6 +455,8 @@ export const studentAttendanceEvents = pgTable(
     recordedById: uuid("recorded_by_id")
       .notNull()
       .references(() => users.id),
+    approvedById: uuid("approved_by_id").references(() => users.id),
+    version: version(),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -501,6 +503,8 @@ export const studentLeaveRequests = pgTable(
   },
   (t) => [
     index("leave_date_idx").on(t.date),
+    // استئذان نشط واحد للطالبة في اليوم (منع التكرار غير المقصود)
+    uniqueIndex("leave_active_uq").on(t.studentId, t.date).where(sql`${t.status} IN ('PENDING','APPROVED','COMPLETED')`),
     minuteCheck("leave_request_ck", t.requestMinute),
     minuteCheck("leave_exit_ck", t.exitMinute),
   ],
@@ -531,7 +535,11 @@ export const studentStatusChanges = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (t) => [index("status_change_student_idx").on(t.studentId)],
+  (t) => [
+    index("status_change_student_idx").on(t.studentId),
+    // طلب واحد قيد الاعتماد لكل قيد
+    uniqueIndex("status_change_pending_uq").on(t.enrollmentId).where(sql`${t.status} = 'PENDING'`),
+  ],
 );
 
 // ───────────────────────── الجداول ─────────────────────────
@@ -744,6 +752,7 @@ export const supervisionAreas = pgTable(
       .references(() => floors.id),
     name: text("name").notNull(),
     isActive: boolean("is_active").notNull().default(true),
+    version: version(),
   },
   (t) => [uniqueIndex("areas_floor_name_uq").on(t.floorId, t.name)],
 );

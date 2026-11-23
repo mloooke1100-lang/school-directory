@@ -57,6 +57,9 @@ export const AUDIT_ACTION_AR: Record<string, string> = {
   password_reset: "إعادة تعيين كلمة المرور",
   password_change_failed: "محاولة فاشلة لتغيير كلمة المرور",
   roles_update: "تعديل الصلاحيات",
+  correct: "تصحيح",
+  cancel: "إلغاء",
+  reject: "رفض",
 };
 
 export const AUDIT_ENTITY_AR: Record<string, string> = {
@@ -76,9 +79,20 @@ export const AUDIT_ENTITY_AR: Record<string, string> = {
   activity_session: "جلسة نشاط",
   subject: "مادة دراسية",
   room: "قاعة",
+  leave: "استئذان",
+  status_change: "انقطاع/نقل",
+  supervision: "مراقبة أدوار",
+  floor: "دور",
+  area: "منطقة مراقبة",
 };
 
 export const ASSIGNMENT_STATUS_AR: Record<string, string> = { PLANNED: "مخطط", CONFIRMED: "مؤكد", DONE: "منفّذ", CANCELLED: "ملغى" };
 export const PERIOD_KIND_AR: Record<string, string> = { LESSON: "حصة", BREAK: "فسحة", PRAYER: "صلاة", ASSEMBLY: "طابور", OTHER: "أخرى" };
 export const ENTRY_KIND_AR: Record<string, string> = { LESSON: "حصة أساسية", STANDBY: "انتظار ثابت", ACTIVITY: "نشاط" };
 export const TIMETABLE_STATUS_AR: Record<string, string> = { DRAFT: "مسودة", APPROVED: "معتمد", SUPERSEDED: "مستبدل (أرشيف)" };
+
+export const ABSENCE_KIND_AR: Record<string, string> = { EXCUSED: "بعذر", UNEXCUSED: "بدون عذر", UNKNOWN: "غير محدد" };
+export const RECORD_STATUS_AR: Record<string, string> = { RECORDED: "مسجّل", APPROVED: "معتمد", CORRECTED: "مصحَّح (سجل سابق)", CANCELLED: "ملغى" };
+export const REQUEST_STATUS_AR: Record<string, string> = { PENDING: "قيد الاعتماد", APPROVED: "معتمد", REJECTED: "مرفوض", COMPLETED: "مكتمل", CANCELLED: "ملغى" };
+export const STATUS_CHANGE_AR: Record<string, string> = { DROPOUT: "انقطاع", TRANSFER_OUT: "نقل إلى مدرسة أخرى", TRANSFER_IN: "نقل إلى المدرسة", WITHDRAWAL: "انسحاب", REINSTATEMENT: "إعادة قيد" };
+export const SUPERVISION_PERIOD_AR: Record<string, string> = { BEFORE_SCHOOL: "قبل الدوام", BREAK: "الفسحة", BETWEEN_PERIODS: "بين الحصص", DISMISSAL: "الانصراف", CUSTOM: "فترة مخصصة" };
