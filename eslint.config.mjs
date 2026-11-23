@@ -18,7 +18,13 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "docs/e2e-report/**",
+      "test-results/**",
     ],
+  },
+  {
+    files: ["tests/**", "e2e/**"],
+    rules: { "@typescript-eslint/no-explicit-any": "off" },
   },
 ];
 
