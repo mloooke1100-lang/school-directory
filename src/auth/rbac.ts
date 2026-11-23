@@ -26,13 +26,14 @@ export interface Grant {
 export interface AuthContext {
   userId: string;
   displayName: string;
+  mustChangePassword: boolean;
   grants: Grant[];
 }
 
 /** يُحمّل صلاحيات المستخدمة من قاعدة البيانات في كل طلب (لا ثقة في بيانات العميل) */
 export async function loadAuthContext(db: DB, userId: string): Promise<AuthContext> {
   const [u] = await db
-    .select({ id: users.id, displayName: users.displayName, isActive: users.isActive })
+    .select({ id: users.id, displayName: users.displayName, isActive: users.isActive, mustChangePassword: users.mustChangePassword })
     .from(users)
     .where(eq(users.id, userId));
   if (!u || !u.isActive) throw new AuthError();
@@ -59,7 +60,7 @@ export async function loadAuthContext(db: DB, userId: string): Promise<AuthConte
     }
     if (r.perm) g.permissions.add(r.perm);
   }
-  return { userId: u.id, displayName: u.displayName, grants: [...byUserRole.values()] };
+  return { userId: u.id, displayName: u.displayName, mustChangePassword: u.mustChangePassword, grants: [...byUserRole.values()] };
 }
 
 /**

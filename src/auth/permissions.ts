@@ -20,6 +20,7 @@ export const PERMISSIONS = {
   "employees.read": "عرض دليل الموظفات",
   "employees.read_sensitive": "عرض تواريخ المباشرة والملاحظات الإدارية",
   "employees.write": "إضافة وتعديل الموظفات",
+  "sections.write": "إدارة الفصول والشعب",
   "timetable.read": "عرض الجداول",
   "timetable.write": "تعديل الجداول",
   "timetable.approve": "اعتماد الجداول",
@@ -64,6 +65,7 @@ export const STAGE_SCOPED: ReadonlySet<Permission> = new Set<Permission>([
   "substitutes.write",
   "activities.read",
   "activities.write",
+  "sections.write",
 ]);
 
 const READ_COMMON: Permission[] = [
@@ -91,6 +93,7 @@ export const SYSTEM_ROLES: Record<string, { nameAr: string; permissions: Permiss
       ...READ_COMMON,
       "employees.read_sensitive",
       "employees.write",
+      "sections.write",
       "timetable.write",
       "timetable.approve",
       "substitutes.write",
@@ -122,6 +125,7 @@ export const SYSTEM_ROLES: Record<string, { nameAr: string; permissions: Permiss
       "students.export",
       "employees.read_sensitive",
       "employees.write",
+      "sections.write",
       "timetable.write",
       "reports.export",
       "imports.manage",

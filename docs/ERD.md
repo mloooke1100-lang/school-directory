@@ -31,3 +31,8 @@ erDiagram
   users ||--o{ audit_logs : acts
   import_batches ||--o{ import_row_issues : has
 ```
+
+## تغييرات المرحلة 4 (ترحيل `drizzle/0001_phase4_directory.sql`)
+- `users.version` و`class_sections.version/updated_at/updated_by_id` للقفل التفاؤلي.
+- `employees.work_location`: المرحلة أو موقع العمل (دليل المستخدمات والحراس).
+- صلاحية جديدة `sections.write` (مقيّدة بالمرحلة): المديرة، وكيلة الشؤون التعليمية، مسؤولة الدليل.

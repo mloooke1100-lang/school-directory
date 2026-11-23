@@ -63,7 +63,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
               <ul className="divide-y divide-gray-100 rounded-xl border border-gray-200 bg-white text-sm">
                 {r.employees.map((x) => (
                   <li key={x.id} className="flex flex-wrap items-center justify-between gap-2 p-3">
-                    <span className="font-medium">{x.fullName}</span>
+                    <Link href={`/employees/${x.id}`} className="font-medium text-brand-700 hover:underline">{x.fullName}</Link>
                     <span className="text-gray-700">{CATEGORY_AR[x.category]} · {x.jobTitle}{x.specialization ? ` · ${x.specialization}` : ""}</span>
                     {x.dataStatus !== "COMPLETE" && <span className="rounded bg-amber-100 px-2 py-0.5 text-xs text-amber-900">{DATA_AR[x.dataStatus]}</span>}
                   </li>
@@ -74,7 +74,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           {r.sections.length > 0 && (
             <section aria-labelledby="sec">
               <h2 id="sec" className="mb-2 font-semibold">الفصول</h2>
-              <ul className="flex flex-wrap gap-2 text-sm">{r.sections.map((x) => <li key={x.id} className="rounded-lg border border-gray-200 bg-white px-3 py-1.5">{x.stageName} · {x.label}</li>)}</ul>
+              <ul className="flex flex-wrap gap-2 text-sm">{r.sections.map((x) => <li key={x.id}><Link href={`/sections/${x.id}`} className="block rounded-lg border border-gray-200 bg-white px-3 py-1.5 hover:bg-brand-50">{x.stageName} · {x.label}</Link></li>)}</ul>
             </section>
           )}
         </>

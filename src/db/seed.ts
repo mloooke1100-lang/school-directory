@@ -101,7 +101,11 @@ export interface SeedResult {
   timetableId: string;
 }
 
-export async function seedDev(db: DB, opts: { fastHash?: boolean } = {}): Promise<SeedResult> {
+/**
+ * mustChangePassword: الافتراضي true (كلمة مرور التطوير معروفة فيُفرض تغييرها عند أول دخول).
+ * الاختبارات الطرفية تمرر false للحسابات الأساسية وتختبر التغيير الإجباري على حساب تُنشئه بنفسها.
+ */
+export async function seedDev(db: DB, opts: { fastHash?: boolean; mustChangePassword?: boolean } = {}): Promise<SeedResult> {
   const { identity } = loadIdentity();
   const roleIds = await syncRolesAndPermissions(db);
 
@@ -277,7 +281,7 @@ export async function seedDev(db: DB, opts: { fastHash?: boolean } = {}): Promis
   // الحسابات الأساسية الأربعة + حساب مقيّد بمرحلة للاختبار
   const hash = opts.fastHash ? bcrypt.hashSync(DEV_PASSWORD, 4) : bcrypt.hashSync(DEV_PASSWORD, 12);
   const mkUser = async (username: string, displayName: string, role: string, employeeId?: string, stageId?: string) => {
-    const [u] = await db.insert(s.users).values({ username, displayName, passwordHash: hash, employeeId }).returning();
+    const [u] = await db.insert(s.users).values({ username, displayName, passwordHash: hash, employeeId, mustChangePassword: opts.mustChangePassword ?? true }).returning();
     await db.insert(s.userRoles).values({ userId: u.id, roleId: roleIds[role], stageId: stageId ?? null });
     return u.id;
   };

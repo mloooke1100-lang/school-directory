@@ -5,7 +5,7 @@ async function main() {
   if (process.env.NODE_ENV === "production") throw new Error("seed للتطوير فقط");
   const db = getDb();
   await resetDatabase(db);
-  const r = await seedDev(db);
+  const r = await seedDev(db, { mustChangePassword: process.env.SEED_PASSWORDS_CHANGED !== "1" });
   console.log("✓ بيانات وهمية جاهزة. مصدر الهوية:", loadIdentity().source);
   console.log("الحسابات (تطوير فقط):", Object.keys(r.userIds).length, "— كلمة المرور:", DEV_PASSWORD);
   await closeDb();

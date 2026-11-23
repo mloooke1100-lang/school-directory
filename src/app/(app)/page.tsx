@@ -5,15 +5,16 @@ import { getDashboard } from "@/server/dashboard";
 import { formatGregorian, formatHijri, riyadhNow, minutesToHHMM, DAY_NAMES_AR } from "@/domain/time";
 import { Stat } from "@/components/stat";
 
-const ACTION_AR: Record<string, string> = { login: "تسجيل دخول", logout: "تسجيل خروج", login_failed: "محاولة دخول فاشلة", login_locked: "محاولة دخول لحساب موقوف", create: "إضافة", update: "تعديل", delete: "حذف", export: "تصدير", approve: "اعتماد" };
-const ENTITY_AR: Record<string, string> = { user: "حساب", student: "طالبة", employee: "موظفة", attendance: "غياب/تأخر" };
+import { AUDIT_ACTION_AR as ACTION_AR, AUDIT_ENTITY_AR as ENTITY_AR } from "@/domain/labels";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ password?: string }> }) {
   const ctx = await requireUser();
+  const { password } = await searchParams;
   const d = await getDashboard(getDb(), ctx);
   const now = riyadhNow();
   return (
     <div className="mx-auto max-w-6xl space-y-6">
+      {password === "changed" && <p role="status" className="rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-800">تم تغيير كلمة المرور بنجاح</p>}
       <header className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-brand-900">{d.school?.nameAr}</h1>

@@ -14,7 +14,7 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["Pixel 7"], channel: "chrome" } },
   ],
   webServer: {
-    command: "npx dotenv -e .env.test -- npx tsx scripts/seed.ts && npx dotenv -e .env.test -- npx next start -p 3100",
+    command: "SEED_PASSWORDS_CHANGED=1 npx dotenv -e .env.test -- npx tsx scripts/seed.ts && npx dotenv -e .env.test -- npx next start -p 3100",
     url: "http://localhost:3100/login",
     reuseExistingServer: false,
     timeout: 120_000,

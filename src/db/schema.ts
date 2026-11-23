@@ -128,6 +128,7 @@ export const users = pgTable("users", {
   failedLogins: integer("failed_logins").notNull().default(0),
   lockedUntil: timestamp("locked_until", { withTimezone: true }),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+  version: integer("version").notNull().default(1),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });
@@ -287,6 +288,7 @@ export const employees = pgTable(
     status: employmentStatus("status").notNull().default("ACTIVE"),
     dataStatus: dataStatus("data_status").notNull().default("INCOMPLETE"),
     duties: text("duties"),
+    workLocation: text("work_location"), // المرحلة أو موقع العمل (للمستخدمات والحراس خاصة)
     notes: text("notes"),
     version: version(),
     createdAt: createdAt(),
@@ -376,6 +378,9 @@ export const classSections = pgTable(
     homeroomTeacherId: uuid("homeroom_teacher_id").references(() => employees.id),
     roomId: uuid("room_id").references(() => rooms.id),
     isActive: boolean("is_active").notNull().default(true),
+    version: version(),
+    updatedAt: updatedAt(),
+    updatedById: uuid("updated_by_id").references((): AnyPgColumn => users.id),
   },
   (t) => [uniqueIndex("sections_grade_year_name_uq").on(t.gradeId, t.yearId, t.name)],
 );
