@@ -42,7 +42,7 @@ test("دليل الطالبات: إضافة طالبة بقيدها ثم تعد�
   await expect(saved(page)).toBeVisible();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(name);
   await expect(page.getByText("سجل القيود عبر السنوات")).toBeVisible();
-  await expect(page.locator("table")).toContainText("2026-09-06");
+  await expect(page.locator("section").filter({ hasText: "سجل القيود عبر السنوات" })).toContainText("2026-09-06");
 
   await page.getByRole("link", { name: "تعديل البيانات والقيد" }).click();
   await page.getByLabel("الاسم الكامل").fill(`${name} (معدّل)`);
@@ -169,8 +169,10 @@ test("الفصول والشعب: إضافة شعبة وتعديل رائدتها
   await expect(saved(page)).toBeVisible();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(`الثالث / ${sec}`);
   await page.getByLabel("رائدة الفصل", { exact: true }).selectOption({ label: "معلمة تجريبية - هيا محمد" });
-  await page.getByRole("button", { name: "حفظ" }).click();
-  await expect(saved(page)).toBeVisible();
+  const edit = page.getByRole("form", { name: "تعديل الشعبة" });
+  await edit.getByRole("button", { name: "حفظ" }).click();
+  // داخل النموذج نفسه: رسالة «تم الحفظ» العامة من التحويل السابق موجودة أصلًا في الصفحة
+  await expect(edit.getByRole("status")).toHaveText("تم الحفظ");
   await page.reload();
   await expect(page.getByText("رائدة الفصل: معلمة تجريبية - هيا محمد")).toBeVisible();
   // إضافة الشعبة نفسها مرة ثانية تُرفض برسالة واضحة

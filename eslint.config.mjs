@@ -23,6 +23,10 @@ const eslintConfig = [
     ],
   },
   {
+    // معاملات عمليات الخادم غير المستخدمة (الحالة السابقة) تُسمّى بشرطة سفلية
+    rules: { "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }] },
+  },
+  {
     files: ["tests/**", "e2e/**"],
     rules: { "@typescript-eslint/no-explicit-any": "off" },
   },

@@ -15,6 +15,13 @@
       "when": 1795442442439,
       "tag": "0001_phase4_directory",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795447124985,
+      "tag": "0002_phase5_timetables",
+      "breakpoints": true
     }
   ]
 }

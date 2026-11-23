@@ -553,6 +553,9 @@ export const periodDefinitions = pgTable(
     label: text("label"),
     startMinute: integer("start_minute").notNull(),
     endMinute: integer("end_minute").notNull(),
+    version: version(),
+    updatedAt: updatedAt(),
+    updatedById: uuid("updated_by_id").references((): AnyPgColumn => users.id),
   },
   (t) => [
     uniqueIndex("periods_slot_uq").on(t.termId, t.stageId, sql`coalesce(${t.dayOfWeek}, -1)`, t.number),
@@ -561,22 +564,33 @@ export const periodDefinitions = pgTable(
   ],
 );
 
-export const weeklyTimetables = pgTable("weekly_timetables", {
-  id: id(),
-  termId: uuid("term_id")
-    .notNull()
-    .references(() => academicTerms.id),
-  stageId: uuid("stage_id")
-    .notNull()
-    .references(() => stages.id),
-  name: text("name").notNull(),
-  status: timetableStatus("status").notNull().default("DRAFT"),
-  effectiveFrom: date("effective_from"),
-  approvedById: uuid("approved_by_id").references(() => users.id),
-  approvedAt: timestamp("approved_at", { withTimezone: true }),
-  createdAt: createdAt(),
-  updatedAt: updatedAt(),
-});
+export const weeklyTimetables = pgTable(
+  "weekly_timetables",
+  {
+    id: id(),
+    termId: uuid("term_id")
+      .notNull()
+      .references(() => academicTerms.id),
+    stageId: uuid("stage_id")
+      .notNull()
+      .references(() => stages.id),
+    name: text("name").notNull(),
+    status: timetableStatus("status").notNull().default("DRAFT"),
+    effectiveFrom: date("effective_from"),
+    sourceTimetableId: uuid("source_timetable_id").references((): AnyPgColumn => weeklyTimetables.id),
+    approvedById: uuid("approved_by_id").references(() => users.id),
+    approvedAt: timestamp("approved_at", { withTimezone: true }),
+    createdById: uuid("created_by_id").references(() => users.id),
+    version: version(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    // جدول معتمد واحد ومسودة واحدة لكل مرحلة في كل فصل دراسي؛ السابق يصبح «مستبدلًا» ولا يُحذف
+    uniqueIndex("tt_one_approved_uq").on(t.termId, t.stageId).where(sql`${t.status} = 'APPROVED'`),
+    uniqueIndex("tt_one_draft_uq").on(t.termId, t.stageId).where(sql`${t.status} = 'DRAFT'`),
+  ],
+);
 
 export const timetableEntries = pgTable(
   "timetable_entries",
@@ -682,7 +696,9 @@ export const activities = pgTable("activities", {
   name: text("name").notNull(),
   description: text("description"),
   isActive: boolean("is_active").notNull().default(true),
+  version: version(),
   createdAt: createdAt(),
+  updatedAt: updatedAt(),
 });
 
 export const activitySessions = pgTable(

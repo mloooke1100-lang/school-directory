@@ -68,4 +68,17 @@ export const AUDIT_ENTITY_AR: Record<string, string> = {
   section: "شعبة",
   school: "إعدادات المدرسة",
   leadership: "القيادة المدرسية",
+  period: "أوقات الحصص",
+  timetable: "جدول أسبوعي",
+  timetable_entry: "خانة جدول",
+  substitute: "حصة انتظار",
+  activity: "نشاط",
+  activity_session: "جلسة نشاط",
+  subject: "مادة دراسية",
+  room: "قاعة",
 };
+
+export const ASSIGNMENT_STATUS_AR: Record<string, string> = { PLANNED: "مخطط", CONFIRMED: "مؤكد", DONE: "منفّذ", CANCELLED: "ملغى" };
+export const PERIOD_KIND_AR: Record<string, string> = { LESSON: "حصة", BREAK: "فسحة", PRAYER: "صلاة", ASSEMBLY: "طابور", OTHER: "أخرى" };
+export const ENTRY_KIND_AR: Record<string, string> = { LESSON: "حصة أساسية", STANDBY: "انتظار ثابت", ACTIVITY: "نشاط" };
+export const TIMETABLE_STATUS_AR: Record<string, string> = { DRAFT: "مسودة", APPROVED: "معتمد", SUPERSEDED: "مستبدل (أرشيف)" };

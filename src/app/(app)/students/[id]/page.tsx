@@ -9,6 +9,7 @@ import Link from "next/link";
 import { getStudentRecord } from "@/server/services/students";
 import { DATA_STATUS_AR, ENROLLMENT_STATUS_AR, YEAR_STATUS_AR } from "@/domain/labels";
 import { btnSecondary, SavedNotice, Table } from "@/components/ui";
+import { SectionSchedule } from "@/components/section-schedule";
 
 const REASON: Record<string, string> = { WEEKEND: "عطلة نهاية الأسبوع", HOLIDAY: "إجازة رسمية", OUTSIDE_TERM: "خارج الفصل الدراسي" };
 
@@ -70,6 +71,7 @@ export default async function StudentPage({ params, searchParams }: { params: Pr
         )}
         <p className="mt-3 text-xs text-gray-700">هذا تحديد للموقع المتوقع بناءً على الجدول المعتمد، وليس تتبعًا فعليًا لموقع الطالبة.</p>
       </section>
+      {r.enrollment && <SectionSchedule ctx={ctx} sectionId={r.enrollment.sectionId} stageId={r.enrollment.stageId} />}
       <section aria-labelledby="hist">
         <h2 id="hist" className="mb-2 font-semibold">سجل القيود عبر السنوات</h2>
         <Table head={["السنة", "المرحلة", "الصف / الشعبة", "تاريخ القيد", "حالة القيد"]}>

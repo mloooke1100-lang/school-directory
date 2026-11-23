@@ -92,6 +92,11 @@ const CONSTRAINT_AR: Record<string, string> = {
   users_employee_id_unique: "هذه الموظفة مرتبطة بحساب دخول آخر.",
   user_roles_uq: "الدور مُسند مسبقًا بالنطاق نفسه.",
   service_dates_emp_kind_uq: "تاريخ المباشرة من هذا النوع مسجّل مسبقًا.",
+  tt_one_draft_uq: "توجد مسودة جدول لهذه المرحلة في هذا الفصل الدراسي؛ أكمليها أو اعتمديها.",
+  tt_one_approved_uq: "يوجد جدول معتمد آخر لهذه المرحلة في هذا الفصل الدراسي.",
+  subjects_stage_name_uq: "المادة موجودة مسبقًا لهذه المرحلة.",
+  rooms_name_unique: "توجد قاعة بالاسم نفسه.",
+  periods_slot_uq: "رقم الفترة مستخدم مسبقًا لهذه المرحلة في اليوم نفسه.",
 };
 
 function dbErrorInfo(e: unknown): { code?: string; constraint?: string } | null {

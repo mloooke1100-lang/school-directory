@@ -10,11 +10,12 @@ import { ENROLLMENT_STATUS_AR } from "@/domain/labels";
 import { ActionForm, Field } from "@/components/form";
 import { BackLink, Card, Denied, inputCls, SavedNotice, Table } from "@/components/ui";
 import { updateSectionAction } from "../actions";
+import { SectionSchedule } from "@/components/section-schedule";
 
-export default async function SectionPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ saved?: string }> }) {
+export default async function SectionPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ saved?: string; date?: string }> }) {
   const ctx = await requireUser();
   const { id } = await params;
-  const { saved } = await searchParams;
+  const { saved, date } = await searchParams;
   if (!z.uuid().safeParse(id).success) notFound();
   const db = getDb();
   let sec;
@@ -60,6 +61,7 @@ export default async function SectionPage({ params, searchParams }: { params: Pr
           </ActionForm>
         </Card>
       )}
+      <SectionSchedule ctx={ctx} sectionId={id} stageId={sec.stageId} date={date} dateParamHref={`/sections/${id}`} />
       <section aria-labelledby="sts">
         <h2 id="sts" className="mb-2 font-semibold">طالبات الشعبة ({sec.students.length})</h2>
         {sec.students.length === 0 ? <p className="text-sm text-gray-600">لا توجد طالبات.</p> : (
